@@ -35,14 +35,20 @@ export default function Home() {
             </div>
 
             {/* Sign in and Create New Account*/}
-            <div>
-                <div className='flex flex-col pt-16'>
+            <div className='items-center justify-center flex'>
+                <div className='pt-16'>
                     <div className='pb-4'>
                         <Link href='/home'>
                             <button className='bg-careDarkGreen rounded-lg p-3 w-full text-white'> Sign In</button>
                         </Link>
                     </div>
-                    <button className='font-bold text-careDarkGreen'>Create Account</button>
+                    <div>
+                        <Link href='/signup'> 
+                            <button className='font-bold text-careDarkGreen'>Create Account</button>               
+                        </Link>
+                    </div>
+
+
                 </div>
             </div>
 

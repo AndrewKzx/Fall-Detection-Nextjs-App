@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import Nav from '../../../component/Nav'
+
 
 export default function Home() {
 

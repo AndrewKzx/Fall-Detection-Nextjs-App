@@ -34,9 +34,12 @@ export default function Home() {
           <button className='bg-careDarkGreen text-white p-3 rounded-lg drop-shadow-lg w-80'>Sign In</button>
         </Link>
 
-        <div className='pt-4'>
-          <button className='font-bold text-careDarkGreen'>Create a New Account</button>
-        </div>
+        <Link href='/signup'>
+          <div className='pt-4'>
+            <button className='font-bold text-careDarkGreen'>Create a New Account</button>
+          </div>
+        </Link>
+
       </div>
     </div>
   );
