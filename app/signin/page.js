@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link'
+import { LoginForm } from "../../component/GoogleLoginForm";
 
 export default function Home() {
 
@@ -42,6 +43,7 @@ export default function Home() {
                             <button className='bg-careDarkGreen rounded-lg p-3 w-full text-white'> Sign In</button>
                         </Link>
                     </div>
+                    <LoginForm />
                     <div>
                         <Link href='/signup'> 
                             <button className='font-bold text-careDarkGreen'>Create Account</button>               
