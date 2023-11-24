@@ -1,11 +1,13 @@
 "use client"
-import React, { useEffect, useState } from 'react';
-import Nav from '../../component/Nav'
+import React, { useEffect } from 'react';
+import Nav from '../../component/Nav';
+import { useSession } from "next-auth/react";
 
 export default function Home() {
 
   return (
-    <div className=''>
+    <div>
+      {/* Rest of the component */}
       <div className=' bg-gray-200'>
         <Nav/>
       </div>
@@ -18,4 +20,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};

@@ -1,3 +1,4 @@
+//app/signup/page.js
 "use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link'
@@ -14,7 +15,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-;
+
             {/* Sign Up Text */}
             <div className='justify-start pt-10'>
                 <p className='font-extrabold text-careDarkGreen text-2xl'> Sign Up</p>
@@ -28,7 +29,6 @@ export default function Home() {
                         <input className='bg-gray-300 rounded-lg p-4 w-full' placeholder='Username' ></input>
                         <input className='bg-gray-300 rounded-lg p-4 w-full' placeholder='Email' ></input>
                         <input className='bg-gray-300 rounded-lg p-4 w-full' placeholder='Password' ></input>
-                        <input className='bg-gray-300 rounded-lg p-6 w-full' placeholder='Address' ></input>
                     </div>
                 </div>
             </div>

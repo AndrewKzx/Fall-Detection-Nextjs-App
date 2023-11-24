@@ -1,8 +1,9 @@
+// components/GoogleLoginForm.js
 "use client";
-
 import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
+import GoogleLogo from "../component/GoogleLogo"
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -10,15 +11,18 @@ export const LoginForm = () => {
   const [error, setError] = useState("");
 
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/status";
+  const callbackUrl = searchParams.get("callbackUrl") || "/home";
 
-  
+
   return (  
-  <button
-  className="flex w-full justify-center gap-5 rounded py-4 px-4 text-sm border-solid border-2 border-black border-opacity-30
-  border-radius: 0.5rem font-bold drop-shadow-md hover:bg-gray-200 duration-500"
-  onClick={() => signIn("google", { callbackUrl })}>
-    <div className="font-extrabold">Sign Up / Log in with Google</div>
-  </button>
-  );
+    <button
+    className="flex"
+    onClick={() => signIn("google", { callbackUrl })}>
+      <div className="pr-10">
+        <GoogleLogo />
+      </div>
+
+      <div className="font-bold">Sign Up / Log in with Google</div>
+    </button>
+    );
 };

@@ -1,4 +1,6 @@
-const GoogleLogo = () => (
+import { JSX, SVGProps } from "react";
+
+const GoogleLogo = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
   <svg
     width="24"
     height="24"
