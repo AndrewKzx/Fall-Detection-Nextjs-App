@@ -16,7 +16,7 @@ export const LoginForm = () => {
       setError(result.error);
     } else if (result?.url) {
       // Set the cookie
-      document.cookie = "authenticated=true; path=/; max-age=3600"; // 1 hour expiry
+      localStorage.setItem('isAuthenticated', 'true');
       // Redirect to the callback URL or default to home
       router.push(result.url || '/home');
     }
