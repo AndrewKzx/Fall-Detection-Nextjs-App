@@ -58,8 +58,15 @@ export default function Home() {
       <div className='mx-10 mt-10'>
         <p className='font-bold text-careDarkGreen text-3xl'>Cameras</p>
         <p className='font-bold text-careLightGreen text-sm'>1 Active Camera</p>
+
         <div className='pt-8'>
           <img src="http://localhost:5000/video_feed" alt="Live Stream" className='rounded-xl' />
+
+          <div className='flex bg-red-700 text-white font-semibold rounded-md justify-center justify-items-center py-2 mt-10'>
+            <a href="tel:999" className="emergency-call-button">
+              Emergency Call
+            </a>
+          </div>
           {fallDetected && !alertAcknowledged && (
             <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
               <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
@@ -82,9 +89,9 @@ export default function Home() {
               </div>
             </div>
           )}
-          <a href="tel:999" className="emergency-call-button">
-            Emergency Call
-          </a>
+
+
+
         </div>
       </div>
     </div>

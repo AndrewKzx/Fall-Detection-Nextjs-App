@@ -17,6 +17,7 @@
     "next": "^14.0.3",
     "next-auth": "^4.24.5",
     "nookies": "^2.5.2",
+    "onesignal-node": "^3.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sendgrid": "^5.2.3",
