@@ -13,6 +13,8 @@ export const LoginForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/home";
 
+  document.cookie = "isAuthenticated=true; path=/";
+
 
   return (  
     <button
