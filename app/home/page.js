@@ -16,6 +16,29 @@ export default function Home() {
   const [cooldown, setCooldown] = useState(false);
   const router = useRouter();
 
+  const sendFallDetectedEmail = async () => {
+    const recipientEmail = 'khorzx01@gmail.com';
+    const response = await fetch('../api/sendMail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        recipient: recipientEmail,
+        subject: 'Fall Detected Alert',
+        text: 'A fall has been detected. Please check the camera footage to verify.',
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Email sent:', data.message);
+    } else {
+      console.error('Error sending email:', response.statusText);
+      // Handle non-200 responses here
+    }
+  };
+
   useEffect(() => {
     // Check if the user is authenticated
     const isAuthenticated = localStorage.getItem('isAuthenticated');
@@ -24,9 +47,15 @@ export default function Home() {
     }
 
     const handleFallDetected = (data) => {
-      if (data.fallDetected && !cooldown) {
+      if (data.fallDetected && !cooldown && !fallDetected) {
+        sendFallDetectedEmail().catch(console.error);
         setFallDetected(true);
         setAlertAcknowledged(false);
+        // Start cooldown timer
+        setCooldown(true);
+        setTimeout(() => {
+          setCooldown(false);
+        }, 300000); // 5 minutes = 300000 milliseconds
       }
     };
 
@@ -35,19 +64,15 @@ export default function Home() {
     return () => {
       socket.off('fall_detected', handleFallDetected);
     };
-  }, [router, cooldown]);
-
+  }, [router, cooldown, fallDetected]);
 
   const handleDismissAlert = () => {
     setFallDetected(false);
     setAlertAcknowledged(true);
-    setCooldown(true);
-
-    // Set a cooldown period of, for example, 5 minutes
-    setTimeout(() => {
-      setCooldown(false);
-    }, 60000); // 1 minute = 60000 milliseconds
   };
+
+
+  
 
   return (
     <div>
