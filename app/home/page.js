@@ -18,10 +18,10 @@ export default function Home() {
 
   useEffect(() => {
     // Check if the user is authenticated
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    if (!isAuthenticated) {
-      router.push('/signin');
-    }
+    // const isAuthenticated = localStorage.getItem('isAuthenticated');
+    // if (!isAuthenticated) {
+    //   router.push('/signin');
+    // }
 
     const handleFallDetected = (data) => {
       if (data.fallDetected && !cooldown) {
