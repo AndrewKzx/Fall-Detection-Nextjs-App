@@ -2,13 +2,46 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link'
-import { LoginForm } from "../../component/GoogleLoginForm";
+import { LoginForm } from "../../components/GoogleLoginForm";
+import { useRouter } from 'next/navigation';
 
+// Initialize Supabase client
+import { createClient } from '@supabase/supabase-js';
+const supabaseUrl = 'https://kqqivmuvkyvgletojezk.supabase.co';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey)
 
-export default function Home() {
+export default function SignIn() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const router = useRouter();
 
+    const handleSignIn = async (e) => {
+        e.preventDefault(); // Prevent default form submission
 
+        // Fetch the user details from Supabase
+        let { data: Users, error } = await supabase
+            .from('Users')
+            .select('password')
+            .eq('email', email)
+            .single();
 
+        if (error) {
+            console.error('Error fetching user from Supabase:', error);
+            return;
+        }
+
+        // Verify the password
+        if (password === Users.password) {
+            localStorage.setItem('isAuthenticated', 'true');
+            // Passwords match, redirect to the home page
+            router.push('/home');
+        } else {
+            // Passwords don't match, handle error
+            alert('Invalid login credentials');
+        }
+    }
+    
     return (
         <div className='m-10'>
             {/* Logo + LogoWord */}
@@ -28,30 +61,41 @@ export default function Home() {
             </div>
 
             {/* Sign In to Account Input Box*/}
-            <div>
-                <div className='flex flex-col pt-16'>
-                    <div className='space-y-8'>
-                        <input className='bg-gray-300 rounded-lg p-4 w-full' placeholder='Username or Email' ></input>
-                        <input className='bg-gray-300 rounded-lg p-4 w-full' placeholder='Password' ></input>
+            <form onSubmit={handleSignIn}>
+                <div>
+                    <div className='flex flex-col pt-16'>
+                        <div className='space-y-8'>
+                            <input 
+                                className='bg-gray-300 rounded-lg p-4 w-full' 
+                                placeholder='Username or Email' 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <input 
+                                className='bg-gray-300 rounded-lg p-4 w-full' 
+                                placeholder='Password' 
+                                type='password'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Sign in and Create New Account*/}
-            <div className='items-center justify-center flex'>
-                <div className='pt-16'>
-                    <div className='pb-4'>
-                        <Link href='/home'>
-                            <button className='bg-careDarkGreen rounded-lg p-3 w-full text-white'> Sign In</button>
-                        </Link>
-                    </div>
+                {/* ... rest of your code ... */}
+                <div className='items-center justify-center flex'>
+                    <div className='pt-16'>
+                        <div className='pb-4'>
+                            <button type="submit" className='bg-careDarkGreen rounded-lg p-3 w-full text-white'> Sign In</button>
+                        </div>
 
-                    <div className="w-full max-w-md bg-white p-4 rounded-lg shadow-md text-black">
+                        <div className="w-full max-w-md bg-white p-4 rounded-lg shadow-md text-black">
                         <LoginForm />
+                        </div>
                     </div>
-
                 </div>
-            </div>
+            </form>
+
 
 
 

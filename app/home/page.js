@@ -1,9 +1,22 @@
+//app/home/page.js
 "use client"
 import React, { useEffect } from 'react';
-import Nav from '../../component/Nav';
+import Nav from '../../components/Nav';
 import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check if the user is authenticated
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+
+    // If not authenticated, redirect to the login page
+    if (!isAuthenticated) {
+      router.push('/signin');
+    }
+  }, [router]);
 
   return (
     <div>

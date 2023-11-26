@@ -9,8 +9,8 @@ import "/app/globals.css"
 const Nav = () => {
 
     return (
-        <div className='flex flex-between items-center justify-center pt-4 pb-4'>
-            <nav className='bg-gray-200 shadow-lg h-16'>
+        <div className='flex flex-between items-center justify-center pt-4 pb-8'>
+            <nav className='bg-gray-200 h-16'>
                 <div className='flex flex-row'>
                     <div className='flex'>
                         <Image src='/assets/images/CareCamLogo.png' width={80} height={100} alt="logo pic"></Image>

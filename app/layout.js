@@ -1,24 +1,23 @@
-
-import { Roboto } from 'next/font/google'
+// app/layout.js
 import './globals.css'
+import { Roboto } from 'next/font/google'
 
-const roboto = Roboto({ subsets: ['latin'], weight: '400' })
-
-
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://kqqivmuvkyvgletojezk.supabase.co'
-const supabaseKey = process.env.SUPABASE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+const roboto = Roboto({ subsets: ['latin'], weight: '400' });
 
 export const metadata = {
   title: 'Carecam',
   description: 'Your Extra Set of Eyes',
-}
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <head>
+        {/* Here you can include global meta tags, scripts, and styles */}
+      </head>
+      <body className={roboto.className}>
+        {children}
+      </body>
     </html>
-  )
+  );
 }
