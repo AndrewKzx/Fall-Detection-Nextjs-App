@@ -12,30 +12,41 @@ const socket = io('http://localhost:5000', {
 
 export default function Home() {
   const [fallDetected, setFallDetected] = useState(false);
+  const [alertAcknowledged, setAlertAcknowledged] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     // Check if the user is authenticated
     const isAuthenticated = localStorage.getItem('isAuthenticated');
-
-    // If not authenticated, redirect to the login page
     if (!isAuthenticated) {
       router.push('/signin');
     }
 
-    // Listen for the fall_detected event from the server
-    socket.on('fall_detected', (data) => {
-      setFallDetected(data.fallDetected);
-    });
-
-    // Clean up the listener when the component unmounts
-    return () => {
-      socket.off('fall_detected');
+    const handleFallDetected = (data) => {
+      if (data.fallDetected && !cooldown) {
+        setFallDetected(true);
+        setAlertAcknowledged(false);
+      }
     };
-  }, [router]);
+
+    socket.on('fall_detected', handleFallDetected);
+
+    return () => {
+      socket.off('fall_detected', handleFallDetected);
+    };
+  }, [router, cooldown]);
+
 
   const handleDismissAlert = () => {
     setFallDetected(false);
+    setAlertAcknowledged(true);
+    setCooldown(true);
+
+    // Set a cooldown period of, for example, 5 minutes
+    setTimeout(() => {
+      setCooldown(false);
+    }, 60000); // 1 minute = 60000 milliseconds
   };
 
   return (
@@ -49,7 +60,7 @@ export default function Home() {
         <p className='font-bold text-careLightGreen text-sm'>1 Active Camera</p>
         <div className='pt-8'>
           <img src="http://localhost:5000/video_feed" alt="Live Stream" className='rounded-xl' />
-          {fallDetected && (
+          {fallDetected && !alertAcknowledged && (
             <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
               <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div className="mt-3 text-center">
