@@ -10,20 +10,12 @@ export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleGoogleSignIn = async () => {
-    const result = await signIn("google", { redirect: false });
-    if (result?.error) {
-      setError(result.error);
-    } else if (result?.url) {
-      // Set the cookie
-      localStorage.setItem('isAuthenticated', 'true');
-      // Redirect to the callback URL or default to home
-      router.push(result.url || '/home');
-    }
+  const handleGoogleSignIn = () => {
+    signIn("google", { callbackUrl: "/home" }); // Redirect user to the home page after signing in
   };
 
-
-
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/home";
 
   return (  
     <button
