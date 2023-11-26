@@ -21,7 +21,7 @@ export default function Signup() {
 
         const { data, error } = await supabase
             .from('Users')
-            .insert([
+            .upsert([
                 { name: username, email: email, password: password }
             ]);
 
