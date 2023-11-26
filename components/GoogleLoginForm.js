@@ -10,16 +10,25 @@ export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/home";
+  const handleGoogleSignIn = async () => {
+    const result = await signIn("google", { redirect: false });
+    if (result?.error) {
+      setError(result.error);
+    } else if (result?.url) {
+      // Set the cookie
+      document.cookie = "authenticated=true; path=/; max-age=3600"; // 1 hour expiry
+      // Redirect to the callback URL or default to home
+      router.push(result.url || '/home');
+    }
+  };
 
-  document.cookie = "isAuthenticated=true; path=/";
+
 
 
   return (  
     <button
     className="flex"
-    onClick={() => signIn("google", { callbackUrl })}>
+    onClick={handleGoogleSignIn}>
       <div className="pr-10">
         <GoogleLogo />
       </div>
