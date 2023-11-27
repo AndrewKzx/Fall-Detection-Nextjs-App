@@ -1,31 +1,40 @@
 // components/GoogleLoginForm.js
 "use client";
 import { signIn } from "next-auth/react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
-import GoogleLogo from "../components/GoogleLogo"
+import React, { useState } from "react";
+import GoogleLogo from "../components/GoogleLogo";
 
 export const LoginForm = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/home" }); // Redirect user to the home page after signing in
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true);
+      const result = await signIn("google", { redirect: false, callbackUrl: "/signup-password" });
+      if (result?.error) {
+        // Handle the error case here if needed
+        setError(result.error);
+      } else if (result?.url) {
+        // This should be the URL to redirect to after sign-in
+        window.location.href = result.url;
+      }
+    } catch (error) {
+      // Handle the error case here
+      console.error("Sign in failed", error);
+      setError("Sign in failed, please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/home";
-
-  return (  
-    <button
-    className="flex"
-    onClick={handleGoogleSignIn}>
+  return (
+    <button className="flex" onClick={handleGoogleSignIn} disabled={loading}>
       <div className="pr-10">
         <GoogleLogo />
       </div>
-
-      <div className="font-bold">Sign Up / Log in with Google</div>
+      <div className="font-bold">{loading ? "Loading..." : "Sign Up / Log in with Google"}</div>
+      {error && <p className="text-red-500">{error}</p>}
     </button>
-    );
+  );
 };

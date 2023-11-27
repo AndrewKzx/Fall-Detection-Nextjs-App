@@ -23,7 +23,7 @@ export const options: NextAuthOptions = {
                     email: user.email,
                     name: user.name
                 }, {
-                    onConflict: 'email'
+                    onConflict: 'userid'
                 });
 
             if (error) {

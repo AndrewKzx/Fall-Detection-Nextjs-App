@@ -6,9 +6,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000', {
+
+const socket = io('https://b9eb-113-23-129-82.ngrok-free.app', {
   transports: ['websocket'], // Use WebSockets
 });
+
 
 export default function Home() {
   const [fallDetected, setFallDetected] = useState(false);
@@ -42,9 +44,9 @@ export default function Home() {
   useEffect(() => {
     // Check if the user is authenticated
     const isAuthenticated = localStorage.getItem('isAuthenticated');
-    if (!isAuthenticated) {
-      router.push('/signin');
-    }
+    // if (!isAuthenticated) {
+    //   router.push('/signin');
+    // }
 
     const handleFallDetected = (data) => {
       if (data.fallDetected && !cooldown && !fallDetected) {
