@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import io from 'socket.io-client';
 
 
-const socket = io('https://b9eb-113-23-129-82.ngrok-free.app', {
+const socket = io('https://a289-113-23-129-82.ngrok-free.app ', {
   transports: ['websocket'], // Use WebSockets
 });
 
