@@ -17,21 +17,33 @@ export default function Signup() {
     const [password, setPassword] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission
-
-        const { data, error } = await supabase
-            .from('Users')
-            .upsert([
-                { name: username, email: email, password: password }
-            ]);
-
-        if (error) {
-            console.error('Error inserting user into Supabase:', error);
-        } else {
-            router.push('/signin'); // Redirect to sign in page after successful sign up
+        e.preventDefault();
+    
+        // Check if user already exists
+        let { data: existingUser } = await supabase
+          .from('Users')
+          .select('email')
+          .eq('email', email)
+          .single();
+    
+        if (existingUser) {
+          // Handle user already exists case
+          console.error('Email already in use.');
+          return;
         }
-    };
-
+    
+        // Insert new user
+        const { error } = await supabase.from('Users').insert([
+          { name: username, email: email, password: password },
+        ]);
+    
+        if (error) {
+          console.error('Error inserting user into Supabase:', error);
+          return;
+        }
+    
+        router.push('/signin');
+      };
 
     return (
         <div className='mx-10'>

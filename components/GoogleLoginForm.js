@@ -3,24 +3,28 @@
 import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import GoogleLogo from "../components/GoogleLogo";
+import { setCookie } from 'nookies';
 
 export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
-      const result = await signIn("google", { redirect: false, callbackUrl: "/signup-password" });
+      const callbackUrl = "/home"; // Specify the URL to redirect after login
+      const result = await signIn("google", { redirect: false, callbackUrl: callbackUrl });
       if (result?.error) {
-        // Handle the error case here if needed
         setError(result.error);
       } else if (result?.url) {
-        // This should be the URL to redirect to after sign-in
-        window.location.href = result.url;
+        // Set isAuthenticated cookie here
+        setCookie(null, 'isAuthenticated', 'true', {
+          maxAge: 30 * 24 * 60 * 60,
+          path: '/',
+        });
+        window.location.href = result.url; // Redirect to '/home' or intended URL
       }
     } catch (error) {
-      // Handle the error case here
       console.error("Sign in failed", error);
       setError("Sign in failed, please try again.");
     } finally {

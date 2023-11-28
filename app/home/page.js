@@ -7,7 +7,9 @@ import { useRouter } from 'next/navigation';
 import io from 'socket.io-client';
 
 
-const socket = io('https://a289-113-23-129-82.ngrok-free.app ', {
+// http:/localhost:5000/
+//https://a289-113-23-129-82.ngrok-free.app
+const socket = io('http:/localhost:5000/', {
   transports: ['websocket'], // Use WebSockets
 });
 
@@ -41,12 +43,20 @@ export default function Home() {
     }
   };
 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
   useEffect(() => {
     // Check if the user is authenticated
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    // if (!isAuthenticated) {
-    //   router.push('/signin');
-    // }
+    //const isAuthenticated = localStorage.getItem('isAuthenticated');
+    const isAuthenticated = getCookie('isAuthenticated');
+    if (!isAuthenticated) {
+      router.push('/signin');
+      return;
+    }
 
     const handleFallDetected = (data) => {
       if (data.fallDetected && !cooldown && !fallDetected) {

@@ -14,10 +14,12 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter();
 
     const handleSignIn = async (e) => {
         e.preventDefault(); // Prevent default form submission
+        setErrorMessage('');
 
         // Fetch the user details from Supabase
         let { data: Users, error } = await supabase
@@ -33,12 +35,13 @@ export default function SignIn() {
 
         // Verify the password
         if (password === Users.password) {
-            localStorage.setItem('isAuthenticated', 'true');
+            //localStorage.setItem('isAuthenticated', 'true');
+            document.cookie = "isAuthenticated=true; max-age=3600; path=/";
             // Passwords match, redirect to the home page
             router.push('/home');
         } else {
             // Passwords don't match, handle error
-            alert('Invalid login credentials');
+            setErrorMessage('Invalid login credentials');
         }
     }
     
@@ -79,12 +82,16 @@ export default function SignIn() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+                        <div className='pt-4 text-sm'>
+                            {errorMessage && <p className="text-red-500 text-left">{errorMessage}</p>}
+                        </div>
+
                     </div>
                 </div>
 
                 {/* ... rest of your code ... */}
                 <div className='items-center justify-center flex'>
-                    <div className='pt-16'>
+                    <div className='pt-6'>
                         <div className='pb-4'>
                             <button type="submit" className='bg-careDarkGreen rounded-lg p-3 w-full text-white'> Sign In</button>
                         </div>
