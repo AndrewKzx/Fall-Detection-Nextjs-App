@@ -103,7 +103,7 @@ export default function Home() {
         <div className='pt-8'>
           <img src="http://localhost:5000/video_feed" alt="Live Stream" className='rounded-xl' />
 
-          <div className='flex bg-red-700 text-white font-semibold rounded-md justify-center justify-items-center py-2 mt-10'>
+          <div className='flex bg-red-700 text-white font-semibold rounded-md justify-center justify-items-center py-2 mt-10 sm:w-1/5'>
             <a href="tel:999" className="emergency-call-button">
               Emergency Call
             </a>

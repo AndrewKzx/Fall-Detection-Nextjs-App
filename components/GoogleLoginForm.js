@@ -12,13 +12,12 @@ export const LoginForm = () => {
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
-      const callbackUrl = "/home"; // Specify the URL to redirect after login
-      const result = await signIn("google", { redirect: false, callbackUrl: callbackUrl });
+      const result = await signIn("google", { redirect: false, callbackUrl: "/home" });
       if (result?.error) {
         setError(result.error);
       } else if (result?.url) {
-        // Client-side approach to set cookie
-        document.cookie = "isAuthenticated=true; max-age=" + (30 * 24 * 60 * 60) + "; path=/";
+        // Set isAuthenticated cookie here directly on the client-side
+        document.cookie = "isAuthenticated=true; path=/";
         // Redirect to the intended URL
         window.location.href = result.url;
       }
@@ -28,14 +27,14 @@ export const LoginForm = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <button className="flex" onClick={handleGoogleSignIn} disabled={loading}>
       <div className="pr-10">
         <GoogleLogo />
       </div>
-      <div className="font-bold">{loading ? "Loading..." : "Sign Up / Log in with Google"}</div>
+      <div className="font-bold">Sign up / Log In with Google</div>
       {error && <p className="text-red-500">{error}</p>}
     </button>
   );

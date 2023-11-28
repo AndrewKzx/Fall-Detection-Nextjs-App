@@ -9,8 +9,9 @@ import Sidebar from "../components/menu"
 
 const Nav = ({ isSidebarOpen, toggleSidebar }) => {
   return (
-    <nav className="bg-gray-200 p-4 flex flex-row align-middle">
-      <div className='flex justify-start  items-start w-1/4'>
+    <nav className="bg-gray-200 p-4 flex flex-row align-middle sm:align-middle
+    ">
+      <div className='flex justify-start  items-start w-1/4 sm:w-2/5'>
         <button onClick={toggleSidebar} className="p-2">
           {/* Replace with your menu icon */}
           <Image src="/assets/images/menu-icon.png" alt="Menu" width={30} height={30} />
