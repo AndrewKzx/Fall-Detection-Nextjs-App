@@ -1,7 +1,7 @@
 //app/api/auth/[...nextauth]/options.ts
 import type { NextAuthOptions } from 'next-auth'
 import GoogleProvider from "next-auth/providers/google";
-
+import { setCookie } from 'nookies';
 
 import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = 'https://kqqivmuvkyvgletojezk.supabase.co'
@@ -30,6 +30,12 @@ export const options: NextAuthOptions = {
                     console.error('Error inserting user into Supabase:', error);
                     return false;
                   }
+            
+                  // Set isAuthenticated cookie
+                  setCookie(null, 'isAuthenticated', 'true', {
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/',
+                  });
 
             return true; // Return true to indicate successful sign in
         },

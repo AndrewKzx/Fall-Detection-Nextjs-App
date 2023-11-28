@@ -95,8 +95,7 @@ export default function SignIn() {
                         <div className='pb-4'>
                             <button type="submit" className='bg-careDarkGreen rounded-lg p-3 w-full text-white'> Sign In</button>
                         </div>
-
-                        <div className="w-full max-w-md bg-white p-4 rounded-lg shadow-md text-black">
+                        <div className="w-full max-w-md bg-white p-3 rounded-lg shadow-md text-black">
                         <LoginForm />
                         </div>
                     </div>

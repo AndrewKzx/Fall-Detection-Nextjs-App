@@ -13,11 +13,12 @@ export const LoginForm = () => {
     try {
       setLoading(true);
       const result = await signIn("google", { redirect: false, callbackUrl: "/home" });
+      document.cookie = "isAuthenticated=true; max-age=3600; path=/";
       if (result?.error) {
         setError(result.error);
       } else if (result?.url) {
         // Set isAuthenticated cookie here directly on the client-side
-        document.cookie = "isAuthenticated=true; path=/";
+        document.cookie = "isAuthenticated=true; max-age=3600; path=/";
         // Redirect to the intended URL
         window.location.href = result.url;
       }
@@ -35,7 +36,6 @@ export const LoginForm = () => {
         <GoogleLogo />
       </div>
       <div className="font-bold">Sign up / Log In with Google</div>
-      {error && <p className="text-red-500">{error}</p>}
     </button>
   );
 }
