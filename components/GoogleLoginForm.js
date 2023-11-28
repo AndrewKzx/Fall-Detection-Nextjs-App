@@ -17,12 +17,10 @@ export const LoginForm = () => {
       if (result?.error) {
         setError(result.error);
       } else if (result?.url) {
-        // Set isAuthenticated cookie here
-        setCookie(null, 'isAuthenticated', 'true', {
-          maxAge: 30 * 24 * 60 * 60,
-          path: '/',
-        });
-        window.location.href = result.url; // Redirect to '/home' or intended URL
+        // Client-side approach to set cookie
+        document.cookie = "isAuthenticated=true; max-age=" + (30 * 24 * 60 * 60) + "; path=/";
+        // Redirect to the intended URL
+        window.location.href = result.url;
       }
     } catch (error) {
       console.error("Sign in failed", error);
@@ -30,7 +28,7 @@ export const LoginForm = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <button className="flex" onClick={handleGoogleSignIn} disabled={loading}>
@@ -41,4 +39,4 @@ export const LoginForm = () => {
       {error && <p className="text-red-500">{error}</p>}
     </button>
   );
-};
+}

@@ -9,9 +9,7 @@ import io from 'socket.io-client';
 
 // http:/localhost:5000/
 //https://a289-113-23-129-82.ngrok-free.app
-const socket = io('http:/localhost:5000/', {
-  transports: ['websocket'], // Use WebSockets
-});
+const socket = io('http://localhost:5000', { transports: ['websocket'] });
 
 
 export default function Home() {
@@ -19,6 +17,12 @@ export default function Home() {
   const [alertAcknowledged, setAlertAcknowledged] = useState(false);
   const [cooldown, setCooldown] = useState(false);
   const router = useRouter();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  }
 
   const sendFallDetectedEmail = async () => {
     const recipientEmail = 'khorzx01@gmail.com';
@@ -90,7 +94,7 @@ export default function Home() {
     <div>
       {/* Rest of the component */}
       <div className=' bg-gray-200'>
-        <Nav />
+        <Nav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       </div>
       <div className='mx-10 mt-10'>
         <p className='font-bold text-careDarkGreen text-3xl'>Cameras</p>
